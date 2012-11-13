@@ -16,3 +16,8 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+*Pods
+*Podfile.lock
+*.DS_Store
+/.DS_Store
