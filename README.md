@@ -85,3 +85,9 @@ typedef enum NANetworkOperationQueingOption: NSInteger {
 
 # 他のNetworkライブラリとの比較
 AFNetworkingとか．．
+
+# podfile注意点
+[cocoapod wiki:Creating-a-project-that-uses-CocoaPods](https://github.com/CocoaPods/CocoaPods/wiki/Creating-a-project-that-uses-CocoaPods)
+
+FAQ2の"If Xcode can’t find the headers of the dependencies:"
+でハマるかも．．
