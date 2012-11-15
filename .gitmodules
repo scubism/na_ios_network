@@ -1,0 +1,3 @@
+[submodule "test/na_ios_ocunit"]
+	path = test/na_ios_ocunit
+	url = git@github.com:nashibao/na_ios_ocunit.git
