@@ -193,9 +193,6 @@ failure:(void (^)(id operation, NSError *error))failure isJson:(BOOL)isJson json
         if (self.error) {
             if (failure) {
                 _err = wself.error;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    failure(wself, wself.error);
-                });
             }
         } else {
             if (success) {
