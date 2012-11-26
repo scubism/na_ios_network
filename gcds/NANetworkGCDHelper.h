@@ -31,6 +31,13 @@
                  successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
                    errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler;
 
++ (void)sendAsynchronousRequest:(NSURLRequest *)request
+                 returnEncoding:(NSStringEncoding)returnEncoding
+                     returnMain:(BOOL)returnMain
+                 successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                   errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler
+                completeHandler:(void(^)())completeHandler;
+
 /** json request wrapper
  
  @param request リクエスト
@@ -46,6 +53,14 @@
                          returnMain:(BOOL)returnMain
                      successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
                        errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler;
+
++ (void)sendJsonAsynchronousRequest:(NSURLRequest *)request
+                         jsonOption:(NSJSONReadingOptions)jsonOption
+                     returnEncoding:(NSStringEncoding)returnEncoding
+                         returnMain:(BOOL)returnMain
+                     successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                       errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler
+                    completeHandler:(void(^)())completeHandler;
 
 /** グローバルなエラーハンドラ
  
