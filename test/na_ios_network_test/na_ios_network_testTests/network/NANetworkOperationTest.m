@@ -41,8 +41,32 @@
     
     [NANetworkOperation sendAsynchronousRequest:req returnEncoding:NSShiftJISStringEncoding returnMain:YES queue:nil identifier:@"testjustsend" identifierMaxCount:1 options:nil queueingOption:NANetworkOperationQueingOptionReturnOld successHandler:^(NANetworkOperation *op, id data) {
         STAssertTrue(YES, @"testSendAsynchronousRequest success");
+    } errorHandler:^(NANetworkOperation *op, NSError *err) {
+        STAssertTrue(NO, @"testSendAsynchronousRequest error");
+        STAsynchronousTestDone(test);
+    } completeHandler:^(NANetworkOperation *op) {
+        NSLog(@"%s|%@", __PRETTY_FUNCTION__, @"completeHandler");
+        STAsynchronousTestDone(test);
+    }];
+    
+    STAsynchronousTestWait(test, 0.5);
+}
+
+
+- (void)testError401
+{
+    STAsynchronousTestStart(test);
+    NSURLRequest *req = [NSURLRequest request:@"http://ozuma.sakura.ne.jp/httpstatus/401" query:nil protocol:NANetworkProtocolGET encoding:NSUTF8StringEncoding];
+    
+    [NANetworkOperation sendAsynchronousRequest:req returnEncoding:NSShiftJISStringEncoding returnMain:YES queue:nil identifier:@"testjustsend" identifierMaxCount:1 options:nil queueingOption:NANetworkOperationQueingOptionReturnOld successHandler:^(NANetworkOperation *op, id data) {
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)op.response;
+        STAssertEquals(httpResp.statusCode, 401, @"status code must be 401");
+        STAssertTrue(YES, @"testSendAsynchronousRequest success");
         STAsynchronousTestDone(test);
     } errorHandler:^(NANetworkOperation *op, NSError *err) {
+        NSLog(@"%s|%@", __PRETTY_FUNCTION__, err);
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)op.response;
+        STAssertEquals(httpResp.statusCode, 401, @"status code must be 401");
         STAssertTrue(NO, @"testSendAsynchronousRequest error");
         STAsynchronousTestDone(test);
     }];
@@ -153,6 +177,8 @@
     
     STAsynchronousTestWait(test, 0.5);
 }
+
+
 
 /** reachabilityのテストをしたいが．．breakpointでやるしかないな．
  */

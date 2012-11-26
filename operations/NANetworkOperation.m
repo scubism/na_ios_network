@@ -79,7 +79,22 @@ static BOOL __reachability__ = NO;
                                      queueingOption:(NANetworkOperationQueingOption)queueingOption
                                      successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
                                        errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler{
-    return [self _sendAsynchronousRequest:request isJson:YES jsonOption:jsonOption returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler];
+    return [self _sendAsynchronousRequest:request isJson:YES jsonOption:jsonOption returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler completeHandler:nil];
+}
+
++ (NANetworkOperation *)sendJsonAsynchronousRequest:(NSURLRequest *)request
+                                         jsonOption:(NSJSONReadingOptions)jsonOption
+                                     returnEncoding:(NSStringEncoding)returnEncoding
+                                         returnMain:(BOOL)returnMain
+                                              queue:(NSOperationQueue *)queue
+                                         identifier:(NSString *)identifier
+                                 identifierMaxCount:(NSInteger)identifierMaxCount
+                                            options:(NSDictionary *)options
+                                     queueingOption:(NANetworkOperationQueingOption)queueingOption
+                                     successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
+                                       errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler
+                                    completeHandler:(void (^)(NANetworkOperation *))completeHandler{
+    return [self _sendAsynchronousRequest:request isJson:YES jsonOption:jsonOption returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler completeHandler:completeHandler];
 }
 
 + (NANetworkOperation *)sendAsynchronousRequest:(NSURLRequest *)request
@@ -92,7 +107,21 @@ static BOOL __reachability__ = NO;
                                  queueingOption:(NANetworkOperationQueingOption)queueingOption
                                  successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
                                    errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler{
-    return [self _sendAsynchronousRequest:request isJson:NO jsonOption:0 returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount  options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler];
+    return [self _sendAsynchronousRequest:request isJson:NO jsonOption:0 returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount  options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler completeHandler:nil];
+}
+
++ (NANetworkOperation *)sendAsynchronousRequest:(NSURLRequest *)request
+                                 returnEncoding:(NSStringEncoding)returnEncoding
+                                     returnMain:(BOOL)returnMain
+                                          queue:(NSOperationQueue *)queue
+                                     identifier:(NSString *)identifier
+                             identifierMaxCount:(NSInteger)identifierMaxCount
+                                        options:(NSDictionary *)options
+                                 queueingOption:(NANetworkOperationQueingOption)queueingOption
+                                 successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
+                                   errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler
+                                completeHandler:(void (^)(NANetworkOperation *))completeHandler{
+    return [self _sendAsynchronousRequest:request isJson:NO jsonOption:0 returnEncoding:returnEncoding returnMain:returnMain queue:queue identifier:identifier identifierMaxCount:identifierMaxCount  options:options queueingOption:queueingOption successHandler:successHandler errorHandler:errorHandler completeHandler:completeHandler];
 }
 
 + (NANetworkOperation *)_sendAsynchronousRequest:(NSURLRequest *)request
@@ -106,7 +135,8 @@ static BOOL __reachability__ = NO;
                                          options:(NSDictionary *)options
                                   queueingOption:(NANetworkOperationQueingOption)queueingOption
                                      successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
-                                       errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler{
+                                    errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler
+                                 completeHandler:(void(^)(NANetworkOperation *op))completeHandler{
     if(!identifierMaxCount)
         identifierMaxCount = 1;
     NANetworkOperation *op = nil;
@@ -124,7 +154,7 @@ static BOOL __reachability__ = NO;
     
     op = [[[self class] alloc] initWithRequest:request];
     [__all_operations__ addObject:op];
-    [op setCompletionBlockWithSuccess:successHandler failure:errorHandler isJson:isJson jsonOption:jsonOption returnMain:returnMain returnEncoding:returnEncoding];
+    [op setCompletionBlockWithSuccess:successHandler failure:errorHandler complete:completeHandler isJson:isJson jsonOption:jsonOption returnMain:returnMain returnEncoding:returnEncoding];
     NSOperationQueue *_queue = queue ?: [NSOperationQueue globalBackgroundQueue];
     [op setIdentifier:identifier];
     operations = _operations_with_id[identifier] ?: [@[] mutableCopy];
@@ -166,10 +196,16 @@ static BOOL __reachability__ = NO;
 }
 
 - (void)setCompletionBlockWithSuccess:(void (^)(id operation, id responseObject))success
-failure:(void (^)(id operation, NSError *error))failure isJson:(BOOL)isJson jsonOption:(NSJSONReadingOptions)jsonOption returnMain:(BOOL)returnMain returnEncoding:(NSStringEncoding)returnEncoding{
+                              failure:(void (^)(id operation, NSError *error))failure
+                             complete:(void(^)(NANetworkOperation *op))complete
+                               isJson:(BOOL)isJson
+                           jsonOption:(NSJSONReadingOptions)jsonOption
+                           returnMain:(BOOL)returnMain
+                       returnEncoding:(NSStringEncoding)returnEncoding{
     __block __weak NANetworkOperation *wself = self;
     self.success_block = success;
     self.fail_block = failure;
+    self.complete_block = complete;
     self.completionBlock = ^{
         [__all_operations__ removeObject:wself];
         NSMutableArray *operations = _operations_with_id[wself.identifier];
@@ -191,11 +227,11 @@ failure:(void (^)(id operation, NSError *error))failure isJson:(BOOL)isJson json
         NSError *_err = nil;
         id response = nil;
         if (self.error) {
-            if (failure) {
+            if (wself.fail_block) {
                 _err = wself.error;
             }
         } else {
-            if (success) {
+            if (wself.success_block) {
                 response = wself.responseData;
                 if(isJson){
                     NSError *jsonErr = nil;
@@ -233,6 +269,11 @@ failure:(void (^)(id operation, NSError *error))failure isJson:(BOOL)isJson json
         }
         if(wself.finish_block)
             wself.finish_block();
+        if(wself.complete_block){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                wself.complete_block(wself);
+            });
+        }
     };
     
 }
