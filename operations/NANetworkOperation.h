@@ -28,6 +28,7 @@ typedef enum NANetworkOperationQueingOption: NSInteger {
 typedef void (^VOID_BLOCK)(void);
 typedef void (^SUCCESS_BLOCK)(id op, id data);
 typedef void (^FAIL_BLOCK)(id op, NSError *err);
+typedef void (^COMPLETE_BLOCK)(id op);
 
 @interface NANetworkOperation : NABaseNetworkOperation
 
@@ -36,6 +37,8 @@ typedef void (^FAIL_BLOCK)(id op, NSError *err);
 @property (strong, nonatomic) SUCCESS_BLOCK success_block;
 
 @property (strong, nonatomic) FAIL_BLOCK fail_block;
+
+@property (strong, nonatomic) COMPLETE_BLOCK complete_block;
 
 @property (strong, nonatomic) VOID_BLOCK cancel_block;
 
@@ -49,9 +52,22 @@ typedef void (^FAIL_BLOCK)(id op, NSError *err);
                                          identifier:(NSString *)identifier
                                  identifierMaxCount:(NSInteger)identifierMaxCount
                                             options:(NSDictionary *)options
-                                 queueingOption:(NANetworkOperationQueingOption)queueingOption
+                                     queueingOption:(NANetworkOperationQueingOption)queueingOption
                                      successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
                                        errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler;
+
++ (NANetworkOperation *)sendJsonAsynchronousRequest:(NSURLRequest *)request
+                                         jsonOption:(NSJSONReadingOptions)jsonOption
+                                     returnEncoding:(NSStringEncoding)returnEncoding
+                                         returnMain:(BOOL)returnMain
+                                              queue:(NSOperationQueue *)queue
+                                         identifier:(NSString *)identifier
+                                 identifierMaxCount:(NSInteger)identifierMaxCount
+                                            options:(NSDictionary *)options
+                                     queueingOption:(NANetworkOperationQueingOption)queueingOption
+                                     successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
+                                       errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler
+                                    completeHandler:(void(^)(NANetworkOperation *op))completeHandler;
 
 
 + (NANetworkOperation *)sendAsynchronousRequest:(NSURLRequest *)request
@@ -64,6 +80,18 @@ typedef void (^FAIL_BLOCK)(id op, NSError *err);
                                  queueingOption:(NANetworkOperationQueingOption)queueingOption
                                  successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
                                    errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler;
+
++ (NANetworkOperation *)sendAsynchronousRequest:(NSURLRequest *)request
+                                 returnEncoding:(NSStringEncoding)returnEncoding
+                                     returnMain:(BOOL)returnMain
+                                          queue:(NSOperationQueue *)queue
+                                     identifier:(NSString *)identifier
+                             identifierMaxCount:(NSInteger)identifierMaxCount
+                                        options:(NSDictionary *)options
+                                 queueingOption:(NANetworkOperationQueingOption)queueingOption
+                                 successHandler:(void(^)(NANetworkOperation *op, id data))successHandler
+                                   errorHandler:(void(^)(NANetworkOperation *op, NSError *err))errorHandler
+                                completeHandler:(void(^)(NANetworkOperation *op))completeHandler;
 
 + (NSArray *)getOperationsByIdentifier:(NSString *)identifier;
 + (NSArray *)cancelByIdentifier:(NSString *)identifier handler:(void (^)(void))handler;

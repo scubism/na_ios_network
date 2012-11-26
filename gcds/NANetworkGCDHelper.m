@@ -20,7 +20,14 @@ static ERROR_BLOCK __global_error_block__;
 
 NSInteger __networking__count__ = 0;
 
-+ (void)_sendAsynchronousRequest:(NSURLRequest *)request returnEncoding:(NSStringEncoding)returnEncoding isJson:(BOOL)isJSON jsonOption:(NSJSONReadingOptions)jsonOption returnMain:(BOOL)returnMain successHandler:(void(^)(NSURLResponse *resp, id data))successHandler errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{
++ (void)_sendAsynchronousRequest:(NSURLRequest *)request
+                  returnEncoding:(NSStringEncoding)returnEncoding
+                          isJson:(BOOL)isJSON
+                      jsonOption:(NSJSONReadingOptions)jsonOption
+                      returnMain:(BOOL)returnMain
+                  successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                    errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler
+                 completeHandler:(void(^)())completeHandler{
     
     [[NANetworkActivityIndicatorManager sharedManager] incrementActivityCount:nil option:nil];
     
@@ -73,15 +80,49 @@ NSInteger __networking__count__ = 0;
             }
             [[NANetworkActivityIndicatorManager sharedManager] decrementActivityCount:nil];
         }
+        if(completeHandler){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completeHandler();
+            });
+        }
     }];
 }
 
-+ (void)sendJsonAsynchronousRequest:(NSURLRequest *)request jsonOption:(NSJSONReadingOptions)jsonOption returnEncoding:(NSStringEncoding)returnEncoding returnMain:(BOOL)returnMain successHandler:(void(^)(NSURLResponse *resp, id data))successHandler errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{
-    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:YES jsonOption:jsonOption returnMain:returnMain successHandler:successHandler errorHandler:errorHandler];
++ (void)sendJsonAsynchronousRequest:(NSURLRequest *)request
+                         jsonOption:(NSJSONReadingOptions)jsonOption
+                     returnEncoding:(NSStringEncoding)returnEncoding
+                         returnMain:(BOOL)returnMain
+                     successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                       errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{
+    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:YES jsonOption:jsonOption returnMain:returnMain successHandler:successHandler errorHandler:errorHandler completeHandler:nil];
 }
 
-+ (void)sendAsynchronousRequest:(NSURLRequest *)request returnEncoding:(NSStringEncoding)returnEncoding returnMain:(BOOL)returnMain successHandler:(void(^)(NSURLResponse *resp, id data))successHandler errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{
-    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:NO jsonOption:NSJSONReadingAllowFragments returnMain:returnMain successHandler:successHandler errorHandler:errorHandler];
+
++ (void)sendJsonAsynchronousRequest:(NSURLRequest *)request
+                         jsonOption:(NSJSONReadingOptions)jsonOption
+                     returnEncoding:(NSStringEncoding)returnEncoding
+                         returnMain:(BOOL)returnMain
+                     successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                       errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler
+                    completeHandler:(void (^)())completeHandler{
+    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:YES jsonOption:jsonOption returnMain:returnMain successHandler:successHandler errorHandler:errorHandler completeHandler:completeHandler];
+}
+
++ (void)sendAsynchronousRequest:(NSURLRequest *)request
+                 returnEncoding:(NSStringEncoding)returnEncoding
+                     returnMain:(BOOL)returnMain
+                 successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                   errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{
+    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:NO jsonOption:NSJSONReadingAllowFragments returnMain:returnMain successHandler:successHandler errorHandler:errorHandler completeHandler:nil];
+}
+
++ (void)sendAsynchronousRequest:(NSURLRequest *)request
+                 returnEncoding:(NSStringEncoding)returnEncoding
+                     returnMain:(BOOL)returnMain
+                 successHandler:(void(^)(NSURLResponse *resp, id data))successHandler
+                   errorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler
+                completeHandler:(void (^)())completeHandler{
+    [self _sendAsynchronousRequest:request returnEncoding:returnEncoding isJson:NO jsonOption:NSJSONReadingAllowFragments returnMain:returnMain successHandler:successHandler errorHandler:errorHandler completeHandler:completeHandler];
 }
 
 + (void)setGlobalErrorHandler:(void(^)(NSURLResponse *resp, NSError *err))errorHandler{

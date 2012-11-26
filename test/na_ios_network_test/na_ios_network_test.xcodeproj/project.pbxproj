@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		272E4BAF81FF4DA5BC2EEC00 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CC07E38F8F8C4B4AA7024541 /* libPods.a */; };
+		3429D48F165503EB0063DFEC /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 3429D48D165503EB0063DFEC /* .gitignore */; };
 		3429FBD916527E5400D7CA30 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3429FBD816527E5400D7CA30 /* UIKit.framework */; };
 		3429FBDB16527E5400D7CA30 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3429FBDA16527E5400D7CA30 /* Foundation.framework */; };
 		3429FBDD16527E5400D7CA30 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3429FBDC16527E5400D7CA30 /* CoreGraphics.framework */; };
@@ -46,6 +47,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3429D48D165503EB0063DFEC /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		3429D48E165503EB0063DFEC /* NAAsyncOCUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAAsyncOCUnit.h; sourceTree = "<group>"; };
 		3429FBD416527E5400D7CA30 /* na_ios_network_test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = na_ios_network_test.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3429FBD816527E5400D7CA30 /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3429FBDA16527E5400D7CA30 /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -68,14 +71,12 @@
 		3429FC3A16527F5A00D7CA30 /* NANetworkOperationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NANetworkOperationTest.m; sourceTree = "<group>"; };
 		3429FC3B16527F5A00D7CA30 /* WorkingTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkingTest.h; sourceTree = "<group>"; };
 		3429FC3C16527F5A00D7CA30 /* WorkingTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkingTest.m; sourceTree = "<group>"; };
-		3429FC4116527F9D00D7CA30 /* NAAsyncOCUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NAAsyncOCUnit.h; sourceTree = "<group>"; };
-		3429FC4216527F9D00D7CA30 /* NAAsyncOCUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NAAsyncOCUnit.m; sourceTree = "<group>"; };
 		3429FC671652807600D7CA30 /* na_ios_network_test copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "na_ios_network_test copy-Info.plist"; path = "/Users/nashibao/lab/github/na_ios_network/test/na_ios_network_test/na_ios_network_test copy-Info.plist"; sourceTree = "<absolute>"; };
 		3429FC6D165280D000D7CA30 /* na_ios_network_test_Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = na_ios_network_test_Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3429FC73165280D000D7CA30 /* na_ios_network_test_Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "na_ios_network_test_Test-Info.plist"; sourceTree = "<group>"; };
 		3429FC75165280D000D7CA30 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3429FC7A165280D000D7CA30 /* na_ios_network_test_Test-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "na_ios_network_test_Test-Prefix.pch"; sourceTree = "<group>"; };
-		3429FC7E165280EE00D7CA30 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		3429FC7E165280EE00D7CA30 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Release-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		3429FC811652812000D7CA30 /* NANetworkGCDHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NANetworkGCDHelper.h; sourceTree = "<group>"; };
 		3429FC821652812000D7CA30 /* NANetworkGCDHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NANetworkGCDHelper.m; sourceTree = "<group>"; };
 		3429FC831652812000D7CA30 /* NANetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NANetworkActivityIndicatorManager.h; path = ../../NANetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
@@ -121,6 +122,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3429D48C165503EB0063DFEC /* na_ios_ocunit */ = {
+			isa = PBXGroup;
+			children = (
+				3429D48D165503EB0063DFEC /* .gitignore */,
+				3429D48E165503EB0063DFEC /* NAAsyncOCUnit.h */,
+			);
+			name = na_ios_ocunit;
+			path = ../../na_ios_ocunit;
+			sourceTree = "<group>";
+		};
 		3429FBC916527E5400D7CA30 = {
 			isa = PBXGroup;
 			children = (
@@ -184,8 +195,6 @@
 		3429FBFC16527E5400D7CA30 /* na_ios_network_testTests */ = {
 			isa = PBXGroup;
 			children = (
-				3429FC4116527F9D00D7CA30 /* NAAsyncOCUnit.h */,
-				3429FC4216527F9D00D7CA30 /* NAAsyncOCUnit.m */,
 				3429FC3616527F5A00D7CA30 /* network */,
 				3429FBFD16527E5400D7CA30 /* Supporting Files */,
 			);
@@ -204,6 +213,7 @@
 		3429FC0D16527E8E00D7CA30 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				3429D48C165503EB0063DFEC /* na_ios_ocunit */,
 				3429FC801652812000D7CA30 /* gcds */,
 				3429FC831652812000D7CA30 /* NANetworkActivityIndicatorManager.h */,
 				3429FC841652812000D7CA30 /* NANetworkActivityIndicatorManager.m */,
@@ -354,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3429FC76165280D000D7CA30 /* InfoPlist.strings in Resources */,
+				3429D48F165503EB0063DFEC /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +602,7 @@
 				3429FC7D165280D000D7CA30 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

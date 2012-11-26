@@ -29,24 +29,67 @@
     [super tearDown];
 }
 
-- (void)atestSendAsynchronousRequest
+- (void)testSendAsynchronousRequest
 {
     STAsynchronousTestStart(test);
     NSURLRequest *req = [NSURLRequest request:@"http://www.google.co.jp" query:nil protocol:NANetworkProtocolGET encoding:NSUTF8StringEncoding];
     
     [NANetworkGCDHelper sendAsynchronousRequest:req returnEncoding:NSShiftJISStringEncoding returnMain:NO successHandler:^(NSURLResponse *resp, id data) {
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)resp;
+        STAssertEquals(httpResp.statusCode, 200, @"status code must be 200");
         STAssertFalse([data isKindOfClass:[NSDictionary class]], @"is not json class");
         STAssertTrue(YES, @"success!!!!!");
-        STAsynchronousTestDone(test);
     } errorHandler:^(NSURLResponse *resp, NSError *err) {
         NSLog(@"%s|%@", __PRETTY_FUNCTION__, err);
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)resp;
+        STAssertEquals(httpResp.statusCode, 200, @"status code must be 200");
         STAssertTrue(NO, @"error!!!!!");
+    } completeHandler:^{
+        NSLog(@"%s|%@", __PRETTY_FUNCTION__, @"complete handler");
         STAsynchronousTestDone(test);
     }];
     STAsynchronousTestWait(test, 0.5);
 }
 
-- (void)atestSendJSONAsynchronousRequest
+- (void)testSendAsynchronousRequest404
+{
+    STAsynchronousTestStart(test);
+    NSURLRequest *req = [NSURLRequest request:@"http://ozuma.sakura.ne.jp/httpstatus/404" query:nil protocol:NANetworkProtocolGET encoding:NSUTF8StringEncoding];
+    
+    [NANetworkGCDHelper sendAsynchronousRequest:req returnEncoding:NSShiftJISStringEncoding returnMain:NO successHandler:^(NSURLResponse *resp, id data) {
+        STAssertFalse([data isKindOfClass:[NSDictionary class]], @"is not json class");
+        STAssertTrue(NO, @"success!!!!!");
+        STAsynchronousTestDone(test);
+    } errorHandler:^(NSURLResponse *resp, NSError *err) {
+        NSLog(@"%s|%@", __PRETTY_FUNCTION__, err);
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)resp;
+        STAssertEquals(httpResp.statusCode, 404, @"status code must be 200");
+        STAssertTrue(YES, @"error!!!!!");
+        STAsynchronousTestDone(test);
+    }];
+    STAsynchronousTestWait(test, 0.5);
+}
+
+- (void)atestSendAsynchronousRequest401
+{
+    STAsynchronousTestStart(test);
+    NSURLRequest *req = [NSURLRequest request:@"http://ozuma.sakura.ne.jp/httpstatus/401" query:nil protocol:NANetworkProtocolGET encoding:NSUTF8StringEncoding];
+    
+    [NANetworkGCDHelper sendAsynchronousRequest:req returnEncoding:NSShiftJISStringEncoding returnMain:NO successHandler:^(NSURLResponse *resp, id data) {
+        STAssertFalse([data isKindOfClass:[NSDictionary class]], @"is not json class");
+        STAssertTrue(NO, @"success!!!!!");
+        STAsynchronousTestDone(test);
+    } errorHandler:^(NSURLResponse *resp, NSError *err) {
+        NSLog(@"%s|%@", __PRETTY_FUNCTION__, err);
+        NSHTTPURLResponse *httpResp = (NSHTTPURLResponse *)resp;
+        STAssertEquals(httpResp.statusCode, 401, @"status code must be 401");
+        STAssertTrue(YES, @"error!!!!!");
+        STAsynchronousTestDone(test);
+    }];
+    STAsynchronousTestWait(test, 0.5);
+}
+
+- (void)testSendJSONAsynchronousRequest
 {
     STAsynchronousTestStart(test);
     NSURLRequest *req = [NSURLRequest request:@"http://www.google.co.jp" query:nil protocol:NANetworkProtocolGET encoding:NSUTF8StringEncoding];
