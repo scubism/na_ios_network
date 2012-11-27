@@ -12,6 +12,8 @@
 
 #import "NANetworkActivityIndicatorManager.h"
 
+#import "JSONKit.h"
+
 typedef void (^ERROR_BLOCK)(NSURLResponse *resp, NSError *err);
 
 @implementation NANetworkGCDHelper
@@ -37,7 +39,7 @@ NSInteger __networking__count__ = 0;
         if([data length] > 0 && err == nil){
             if(isJSON){
                 NSError *jsonErr;
-                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:jsonOption error:&jsonErr];
+                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
                 if(jsonErr){
                     _err = jsonErr;
                 }else{
