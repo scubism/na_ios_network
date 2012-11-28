@@ -250,10 +250,10 @@ static BOOL __reachability__ = NO;
             if(wself.fail_block){
                 if(returnMain){
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        wself.fail_block(wself, wself.error);
+                        wself.fail_block(wself, _err);
                     });
                 }else{
-                    wself.fail_block(wself, wself.error);
+                    wself.fail_block(wself, _err);
                 }
             }
             [[NANetworkActivityIndicatorManager sharedManager] decrementActivityCount:wself.identifier error:[NSString stringWithFormat:@"%@", _err]];
