@@ -7,6 +7,7 @@
 //
 
 #import "NSURLRequest+na.h"
+#import "NSString+na.h"
 
 @implementation NSURLRequest (na)
 
@@ -35,7 +36,7 @@
         for(NSString *key in query){
             id val = query[key];
             if([val isKindOfClass:[NSString class]]){
-                val = [val stringByAddingPercentEscapesUsingEncoding:encoding];
+                val = [val encodeURIComponentByEncoding:encoding];
             }
             [requestString appendFormat:@"%@=%@&", key, val];
         }
