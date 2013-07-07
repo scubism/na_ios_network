@@ -36,7 +36,7 @@ NSInteger __networking__count__ = 0;
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue globalBackgroundQueue] completionHandler:^(NSURLResponse *resp, NSData *data, NSError *err) {
         NSError *_err = nil;
         id _result = nil;
-        if([data length] > 0 && err == nil){
+        if([(NSHTTPURLResponse *)resp statusCode] == 200 && [data length] > 0 && err == nil){
             if(isJSON){
                 NSError *jsonErr;
                 NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
