@@ -11,8 +11,8 @@
 #import "NSOperationQueue+na.h"
 
 #import "NANetworkActivityIndicatorManager.h"
-
-#import "JSONKit.h"
+#import "JSON.h"
+//#import "JSONKit.h"
 
 typedef void (^ERROR_BLOCK)(NSURLResponse *resp, NSError *err);
 
@@ -39,7 +39,8 @@ NSInteger __networking__count__ = 0;
         if([(NSHTTPURLResponse *)resp statusCode] == 200 && [data length] > 0 && err == nil){
             if(isJSON){
                 NSError *jsonErr;
-                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
+                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonErr];
+//                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
                 if(jsonErr){
                     _err = jsonErr;
                 }else{
@@ -52,7 +53,8 @@ NSInteger __networking__count__ = 0;
         }else{
             if(isJSON){
                 NSError *jsonErr;
-                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
+                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonErr];
+//                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
                 if(!jsonErr){
                     _err = [NSError errorWithDomain:@"NANetworkGCDHelper" code:[(NSHTTPURLResponse *)resp statusCode] userInfo:result];
                 } else {

@@ -14,7 +14,7 @@
 
 #import "Reachability.h"
 
-#import "JSONKit.h"
+//#import "JSONKit.h"
 
 @implementation NANetworkOperation
 
@@ -237,7 +237,8 @@ static BOOL __reachability__ = NO;
                 response = wself.responseData;
                 if(isJson){
                     NSError *jsonErr = nil;
-                    response = [response objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
+                    response = [NSJSONSerialization dataWithJSONObject:response options:0 error:&jsonErr];
+//                    response = [response objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
                     if(jsonErr){
                         _err = jsonErr;
                     }
