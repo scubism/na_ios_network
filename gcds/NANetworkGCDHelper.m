@@ -49,14 +49,18 @@ NSInteger __networking__count__ = 0;
                 _result = result;
             }
         }else{
-            if(isJSON){
-                NSError *jsonErr;
-                NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonErr];
-//                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
-                if(!jsonErr){
-                    _err = [NSError errorWithDomain:@"NANetworkGCDHelper" code:[(NSHTTPURLResponse *)resp statusCode] userInfo:result];
+            if (data) {
+                if(isJSON){
+                    NSError *jsonErr;
+                    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonErr];
+                    //                NSDictionary *result = [data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&jsonErr];
+                    if(!jsonErr){
+                        _err = [NSError errorWithDomain:@"NANetworkGCDHelper" code:[(NSHTTPURLResponse *)resp statusCode] userInfo:result];
+                    } else {
+                        _err = err;
+                    }
                 } else {
-                   _err = err; 
+                    _err = err;
                 }
             } else {
                 _err = err;
