@@ -38,6 +38,9 @@
             if([val isKindOfClass:[NSString class]]){
                 val = [val encodeURIComponentByEncoding:encoding];
             }
+            if([val isKindOfClass:[NSNull class]]){
+                val = @"null";
+            }
             [requestString appendFormat:@"%@=%@&", key, val];
         }
         if (protocol==NANetworkProtocolGET){
