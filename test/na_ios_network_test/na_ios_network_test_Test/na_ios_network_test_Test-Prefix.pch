@@ -1,8 +1,0 @@
-//
-// Prefix header for all source files of the 'na_ios_network_test_Test' target in the 'na_ios_network_test_Test' project
-//
-
-#ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-#endif
