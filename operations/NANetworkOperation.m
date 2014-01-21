@@ -25,7 +25,7 @@ static NSMutableDictionary *_operations_with_id = nil;
 static Reachability *__reach__ = nil;
 static BOOL __reachability__ = NO;
 
-#warning 本当は呼び出しもとのスレッドは決めておいた方がいいな．lockはかけたくないしmainはいやだから、globalBackgroundThreadがあるといいけど?gcdのglobal background queueを使うか．
+// FIXME: 本当は呼び出しもとのスレッドは決めておいた方がいいな．lockはかけたくないしmainはいやだから、globalBackgroundThreadがあるといいけど?gcdのglobal background queueを使うか．
 
 + (void)load{
     [super load];

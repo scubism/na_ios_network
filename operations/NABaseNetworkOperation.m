@@ -235,7 +235,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     if (self.connection) {
         [self.connection cancel];
         
-#warning ポーズしているときにキャンセルが来た場合、完全なキャンセルにならなくちゃいけない．
+        // FIXME: ポーズしているときにキャンセルが来た場合、完全なキャンセルにならなくちゃいけない．
         if([self isPaused])
             return;
         
