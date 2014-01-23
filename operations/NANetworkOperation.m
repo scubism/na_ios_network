@@ -228,7 +228,7 @@ static BOOL __reachability__ = NO;
         }
         NSError *_err = nil;
         id response = nil;
-        if (self.error) {
+        if (wself.error) {
             if (wself.fail_block) {
                 _err = wself.error;
             }
