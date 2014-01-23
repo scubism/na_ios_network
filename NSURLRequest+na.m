@@ -39,7 +39,7 @@
                 val = [val encodeURIComponentByEncoding:encoding];
             }
             if([val isKindOfClass:[NSNull class]]){
-                val = @"null";
+                val = @"";
             }
             [requestString appendFormat:@"%@=%@&", key, val];
         }
