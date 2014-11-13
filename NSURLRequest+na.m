@@ -54,7 +54,9 @@
         [req setHTTPBody:requestData];
     [req setHTTPMethod: method];
     [req setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"content-type"];
+#ifdef DEBUG
     NSLog(@"%s|%@|%@", __PRETTY_FUNCTION__, urlstring, query);
+#endif
     return req;
 }
 
